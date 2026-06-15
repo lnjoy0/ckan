@@ -1328,16 +1328,13 @@ groups:
         type: list
         default: image
         example: image text
-        description: File types allowed to upload as user's avatar. If empty and :ref:`ckan.upload.user.mimetypes`
-          is also empty, no uploads are allowed. To allow any kind of file upload, use the ``*`` string in both
-          options (this is dangerous and **not** recommended). Note also that ``text/svg`` can contain embedded
-          javascript code so it only should be used in trusted environments.
+        description: File types allowed to upload as user's avatar. No restrictions applied when empty
 
       - key: ckan.upload.user.mimetypes
         type: list
         default: image/png image/gif image/jpeg
-        example: image/png
-        description: File MIMETypes allowed to upload as user's avatar. If empty and :ref:`ckan.upload.user.types`
+        example: image/png text/svg
+        description: File MIMETypes allowed to upload as user's avatar. No restrictions applied when empty
           is also empty, no uploads are allowed. To allow any kind of file upload, use the ``*`` string in both
           options (this is dangerous and **not** recommended).
 
@@ -1345,19 +1342,13 @@ groups:
         type: list
         default: image
         example: image text
-        description: File types allowed to upload as group or organization image. If empty
-          and :ref:`ckan.upload.group.mimetypes` is also empty, no uploads are allowed. To allow any kind of
-          file upload, use the ``*`` string in both options (this is dangerous and **not** recommended).
+        description: File types allowed to upload as group image. No restrictions applied when empty
 
       - key: ckan.upload.group.mimetypes
         type: list
         default: image/png image/gif image/jpeg
-        example: image/png
-        description: File MIMEtypes allowed to upload as group or organization image. If empty
-          and :ref:`ckan.upload.group.types` is also empty, no uploads are allowed. To allow any kind of
-          file upload, use the ``*`` string in both options (this is dangerous and **not** recommended).
-          Note also that ``text/svg`` can contain embedded javascript code so it only should be used in
-          trusted environments.
+        example: image/png text/svg
+        description: File MIMETypes allowed to upload as group image. No restrictions applied when empty
 
   - annotation: Webassets Settings
     options:
