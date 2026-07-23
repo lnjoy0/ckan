@@ -79,3 +79,28 @@ class TestInitResourceUpload(object):
             res_upload.upload(resource_id)
 
 
+class TestUpload(object):
+    def test_group_upload(self, monkeypatch, tmpdir, make_app, ckan_config, faker):
+        """Reproduce group's logo upload and check that file available through
+        public url.
+
+        """
+        monkeypatch.setitem(ckan_config, u'ckan.storage_path', str(tmpdir))
+        group = {u'clear_upload': u'',
+                 u'upload': FileStorage(
+                     BytesIO(faker.image()),
+                     filename=u'logo.png',
+                     content_type=u'image/png'
+                 ),
+                 u'name': u'test-group-upload'}
+        group_upload = Upload(u'group')
+        group_upload.update_data_dict(group, u'url', u'upload', u'clear_upload')
+        group_upload.upload()
+        uploads_dir = tmpdir / u'storage' / u'uploads' / u'group'
+        logo = uploads_dir.listdir()[0]
+        assert logo.basename == group[u'url']
+        app = make_app()
+        resp = app.get(u'/uploads/group/' + group[u'url'])
+        assert resp.status_code == 200
+        # PNG signature
+        assert resp.data.hex()[:16].upper() == '89504E470D0A1A0A'
